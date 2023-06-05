@@ -28,40 +28,35 @@ class GildedRose {
     }
 
     private static void updateQualityBeforeSellingDate(Item item) {
-        if (isSpecialItem(item)) {
-            increaseQualityBy1(item);
+        if (isCommonItem(item)) {
+            decreaseQualityBy1(item);
+            return;
         }
+
+        increaseQualityBy(item, 1);
 
         if (isBackstagePass(item)) {
-            if (item.sellIn < 11) {
-                increaseQualityBy1(item);
-            }
-            if (item.sellIn < 6) {
-                increaseQualityBy1(item);
-            }
-        }
-
-        if (!isSpecialItem(item)) {
-            decreaseQualityBy1(item);
+            increaseQualityBy(item, calculateBackstageExtraQuality(item));
         }
     }
 
     private static void updateQualityAfterSellingDate(Item item) {
+        if (isCommonItem(item)) {
+            decreaseQualityBy1(item);
+            return;
+        }
+
         if (isAgedBrie(item)) {
-            increaseQualityBy1(item);
+            increaseQualityBy(item, 1);
         }
 
         if (isBackstagePass(item)) {
             item.quality = 0;
         }
-
-        if (!isSpecialItem(item)) {
-            decreaseQualityBy1(item);
-        }
     }
 
-    private static boolean isSpecialItem(Item item) {
-        return isAgedBrie(item) || isBackstagePass(item);
+    private static boolean isCommonItem(Item item) {
+        return !isAgedBrie(item) && !isBackstagePass(item);
     }
 
     private static boolean isBackstagePass(Item item) {
@@ -76,7 +71,18 @@ class GildedRose {
         item.quality = Math.max(item.quality - 1, 0);
     }
 
-    private static void increaseQualityBy1(Item item) {
-        item.quality = Math.min(item.quality + 1, 50);
+    private static void increaseQualityBy(Item item, int amount) {
+        item.quality = Math.min(item.quality + amount, 50);
+    }
+
+    private static int calculateBackstageExtraQuality(Item item) {
+        int extraPoints = 0;
+        if (item.sellIn <= 10) {
+            extraPoints++;
+        }
+        if (item.sellIn <= 5) {
+            extraPoints++;
+        }
+        return extraPoints;
     }
 }
