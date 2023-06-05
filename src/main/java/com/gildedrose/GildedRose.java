@@ -15,6 +15,8 @@ class GildedRose {
             boolean isAgedBrie = item.name.equals("Aged Brie");
             boolean isBackstagePass = item.name.equals("Backstage passes to a TAFKAL80ETC concert");
 
+            item.sellIn = item.sellIn - 1;
+
             if(isAgedBrie || isBackstagePass) {
                 if (item.quality < 50) {
                     increaseQualityBy1(item);
@@ -27,8 +29,6 @@ class GildedRose {
                     decreaseQualityBy1(item);
                 }
             }
-
-            item.sellIn = item.sellIn - 1;
 
             if (item.sellIn < 0) {
                 if (!isAgedBrie) {
