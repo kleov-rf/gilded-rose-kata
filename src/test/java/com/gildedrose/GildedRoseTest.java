@@ -64,6 +64,20 @@ class GildedRoseTest {
         assertEquals(expectedQuality, actualQuality);
     }
 
+    @Test
+    void should_not_change_if_item_is_sulfuras() {
+        Item item = new Item("Sulfuras, Hand of Ragnaros", 0, 0);
+        Item[] items = new Item[] {item};
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        int expectedQuality = 0;
+        int actualQuality = item.quality;
+        int expectedSellIn = 0;
+        int actualSellIn = item.sellIn;
+        assertEquals(expectedQuality, actualQuality);
+        assertEquals(expectedSellIn, actualSellIn);
+    }
+
 
 
 }
