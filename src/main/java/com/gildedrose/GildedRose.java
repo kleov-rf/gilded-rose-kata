@@ -13,39 +13,47 @@ class GildedRose {
 
             if (isSulfuras) continue;
 
-            if (isSpecialItem(item)) {
-                if (item.quality < 50) {
-                    increaseQualityBy1(item);
-                }
-                if (item.quality < 50 && isBackstagePass(item)) {
-                    if (item.sellIn < 11) {
-                        increaseQualityBy1(item);
-                    }
-                    if (item.sellIn < 6) {
-                        increaseQualityBy1(item);
-                    }
-                }
-            }
-
-            if (!isSpecialItem(item) && item.quality > 0) {
-                decreaseQualityBy1(item);
-            }
+            updateStatsBeforeSelling(item);
 
             item.sellIn = item.sellIn - 1;
 
             if (item.sellIn >= 0) continue;
 
-            if (isAgedBrie(item) && item.quality < 50) {
+            updateStatsAfterSelling(item);
+        }
+    }
+
+    private static void updateStatsBeforeSelling(Item item) {
+        if (isSpecialItem(item)) {
+            if (item.quality < 50) {
                 increaseQualityBy1(item);
             }
-
-            if (isBackstagePass(item)) {
-                item.quality = 0;
+            if (item.quality < 50 && isBackstagePass(item)) {
+                if (item.sellIn < 11) {
+                    increaseQualityBy1(item);
+                }
+                if (item.sellIn < 6) {
+                    increaseQualityBy1(item);
+                }
             }
+        }
 
-            if (!isSpecialItem(item) && item.quality > 0) {
-                decreaseQualityBy1(item);
-            }
+        if (!isSpecialItem(item) && item.quality > 0) {
+            decreaseQualityBy1(item);
+        }
+    }
+
+    private static void updateStatsAfterSelling(Item item) {
+        if (isAgedBrie(item) && item.quality < 50) {
+            increaseQualityBy1(item);
+        }
+
+        if (isBackstagePass(item)) {
+            item.quality = 0;
+        }
+
+        if (!isSpecialItem(item) && item.quality > 0) {
+            decreaseQualityBy1(item);
         }
     }
 
