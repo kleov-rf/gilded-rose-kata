@@ -42,4 +42,15 @@ class GildedRoseTest {
         assertEquals(expectedQuality, actualQuality);
     }
 
+    @Test
+    void should_increase_quality_to_2_if_item_is_backstage_pass_with_sell_in_less_than_6_and_quality_less_than_50() {
+        Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 5, 0);
+        Item[] items = new Item[] {item};
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        int expectedQuality = 3;
+        int actualQuality = item.quality;
+        assertEquals(expectedQuality, actualQuality);
+    }
+
 }
