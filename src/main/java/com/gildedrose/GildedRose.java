@@ -15,16 +15,16 @@ class GildedRose {
             boolean isAgedBrie = item.name.equals("Aged Brie");
             boolean isBackstagePass = item.name.equals("Backstage passes to a TAFKAL80ETC concert");
 
-            if (!isAgedBrie && !isBackstagePass) {
-                if (item.quality > 0) {
-                    decreaseQualityBy1(item);
-                }
-            } else {
+            if(isAgedBrie || isBackstagePass) {
                 if (item.quality < 50) {
                     increaseQualityBy1(item);
                 }
                 if (item.quality < 50 && isBackstagePass) {
                     handleBackstageWithQualityLessThan50(item);
+                }
+            } else {
+                if (item.quality > 0) {
+                    decreaseQualityBy1(item);
                 }
             }
 
