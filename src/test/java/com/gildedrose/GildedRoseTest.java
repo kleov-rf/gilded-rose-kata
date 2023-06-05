@@ -1,5 +1,6 @@
 package com.gildedrose;
 
+import org.approvaltests.Approvals;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,11 +23,23 @@ class GildedRoseTest {
     */
 
     @Test
-    void foo() {
-        Item[] items = new Item[] { new Item("foo", 0, 0) };
+    void golden_master(){
+        // act
+        String output = TexttestFixture.print(new String[]{});
+
+        // assert
+        Approvals.verify(output);
+    }
+
+    @Test
+    void should_increase_quality_to_2_if_item_is_backstage_pass_with_sell_in_between_6_and_11_and_quality_less_than_50() {
+        Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 7, 0);
+        Item[] items = new Item[] {item};
         GildedRose app = new GildedRose(items);
         app.updateQuality();
-        assertEquals("fixme", app.items[0].name);
+        int expectedQuality = 2;
+        int actualQuality = item.quality;
+        assertEquals(expectedQuality, actualQuality);
     }
 
 }
