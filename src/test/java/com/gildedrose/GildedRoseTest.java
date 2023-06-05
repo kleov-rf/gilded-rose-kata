@@ -67,19 +67,83 @@ class GildedRoseTest {
     }
 
     @Test
+    void quality_should_not_be_higher_than_50() {
+        Item item = new Item("Aged Brie", 0, 50);
+        Item[] items = new Item[] {item};
+        GildedRose app = new GildedRose(items);
+        int expectedSellIn = -1;
+        int expectedQuality = 50;
+
+        app.updateQuality();
+        int actualSellIn = item.sellIn;
+        int actualQuality = item.quality;
+
+        assertEquals(expectedSellIn, actualSellIn);
+        assertEquals(expectedQuality, actualQuality);
+    }
+
+    @Test
+    void quality_should_not_be_less_than_0() {
+        Item item = new Item("Al's dog food", 0, 0);
+        Item[] items = new Item[] {item};
+        GildedRose app = new GildedRose(items);
+        int expectedSellIn = -1;
+        int expectedQuality = 0;
+
+        app.updateQuality();
+        int actualSellIn = item.sellIn;
+        int actualQuality = item.quality;
+
+        assertEquals(expectedSellIn, actualSellIn);
+        assertEquals(expectedQuality, actualQuality);
+    }
+
+    @Test
     void should_not_change_if_item_is_sulfuras() {
         Item item = new Item("Sulfuras, Hand of Ragnaros", 0, 0);
         Item[] items = new Item[] {item};
         GildedRose app = new GildedRose(items);
-        app.updateQuality();
-        int expectedQuality = 0;
-        int actualQuality = item.quality;
         int expectedSellIn = 0;
+        int expectedQuality = 0;
+
+        app.updateQuality();
         int actualSellIn = item.sellIn;
-        assertEquals(expectedQuality, actualQuality);
+        int actualQuality = item.quality;
+
         assertEquals(expectedSellIn, actualSellIn);
+        assertEquals(expectedQuality, actualQuality);
     }
 
+    @Test
+    void should_decrease_quality_by_one_if_common_item_has_more_than_one_day_left_to_sell() {
+        Item item = new Item("Mom's Chanclas", 2, 3);
+        Item[] items = new Item[] {item};
+        GildedRose app = new GildedRose(items);
+        int expectedSellIn = 1;
+        int expectedQuality = 2;
 
+        app.updateQuality();
+        int actualSellIn = item.sellIn;
+        int actualQuality = item.quality;
+
+        assertEquals(expectedSellIn, actualSellIn);
+        assertEquals(expectedQuality, actualQuality);
+    }
+
+    @Test
+    void should_decrease_quality_by_two_if_common_item_has_no_days_left_to_sell() {
+        Item item = new Item("Mom's Chanclas", 0, 3);
+        Item[] items = new Item[] {item};
+        GildedRose app = new GildedRose(items);
+        int expectedSellIn = -1;
+        int expectedQuality = 1;
+
+        app.updateQuality();
+        int actualSellIn = item.sellIn;
+        int actualQuality = item.quality;
+
+        assertEquals(expectedSellIn, actualSellIn);
+        assertEquals(expectedQuality, actualQuality);
+    }
 
 }
