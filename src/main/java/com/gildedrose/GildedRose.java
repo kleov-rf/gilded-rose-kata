@@ -12,20 +12,17 @@ class GildedRose {
             boolean isAgedBrie = item.name.equals("Aged Brie");
             boolean isBackstagePass = item.name.equals("Backstage passes to a TAFKAL80ETC concert");
             boolean isSulfuras = item.name.equals("Sulfuras, Hand of Ragnaros");
-            
-            if (!isAgedBrie
-                && !isBackstagePass) {
-                if (item.quality > 0) {
-                    if (!isSulfuras) {
+
+            if (!isAgedBrie && !isBackstagePass) {
+                if (item.quality > 0 && !isSulfuras) {
                         decreaseQualityBy1(item);
-                    }
                 }
             } else {
                 if (item.quality < 50) {
                     increaseQualityBy1(item);
-                    if (isBackstagePass) {
-                        handleBackstageWithQualityLessThan50(item);
-                    }
+                }
+                if (item.quality < 50 && isBackstagePass) {
+                    handleBackstageWithQualityLessThan50(item);
                 }
             }
 
