@@ -10,17 +10,14 @@ class GildedRose {
     public void updateQuality() {
         for (Item item : items) {
             boolean isSulfuras = item.name.equals("Sulfuras, Hand of Ragnaros");
-            boolean isAgedBrie = item.name.equals("Aged Brie");
-            boolean isBackstagePass = item.name.equals("Backstage passes to a TAFKAL80ETC concert");
-            boolean isSpecialItem = isAgedBrie || isBackstagePass;
 
             if (isSulfuras) continue;
 
-            if (isSpecialItem) {
+            if (isSpecialItem(item)) {
                 if (item.quality < 50) {
                     increaseQualityBy1(item);
                 }
-                if (item.quality < 50 && isBackstagePass) {
+                if (item.quality < 50 && isBackstagePass(item)) {
                     if (item.sellIn < 11) {
                         increaseQualityBy1(item);
                     }
@@ -30,7 +27,7 @@ class GildedRose {
                 }
             }
 
-            if (!isSpecialItem && item.quality > 0) {
+            if (!isSpecialItem(item) && item.quality > 0) {
                 decreaseQualityBy1(item);
             }
 
@@ -38,20 +35,30 @@ class GildedRose {
 
             if (item.sellIn >= 0) continue;
 
-            if (isAgedBrie && item.quality < 50) {
+            if (isAgedBrie(item) && item.quality < 50) {
                 increaseQualityBy1(item);
-                continue;
             }
 
-            if (isBackstagePass) {
+            if (isBackstagePass(item)) {
                 item.quality = 0;
-                continue;
             }
 
-            if (item.quality > 0) {
+            if (!isSpecialItem(item) && item.quality > 0) {
                 decreaseQualityBy1(item);
             }
         }
+    }
+
+    private static boolean isSpecialItem(Item item) {
+        return isAgedBrie(item) || isBackstagePass(item);
+    }
+
+    private static boolean isBackstagePass(Item item) {
+        return item.name.equals("Backstage passes to a TAFKAL80ETC concert");
+    }
+
+    private static boolean isAgedBrie(Item item) {
+        return item.name.equals("Aged Brie");
     }
 
     private static void decreaseQualityBy1(Item item) {
