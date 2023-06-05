@@ -53,4 +53,17 @@ class GildedRoseTest {
         assertEquals(expectedQuality, actualQuality);
     }
 
+    @Test
+    void should_decrease_quality_1_point_if_item_is_neither_backstage_nor_sulfuras_nor_brie_with_quality_greater_than_0_and_sell_in_less_than_0() {
+        Item item = new Item("Elixir of the Mongoose", -1, 1);
+        Item[] items = new Item[] {item};
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        int expectedQuality = 0;
+        int actualQuality = item.quality;
+        assertEquals(expectedQuality, actualQuality);
+    }
+
+
+
 }

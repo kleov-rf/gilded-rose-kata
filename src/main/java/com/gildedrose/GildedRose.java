@@ -13,22 +13,14 @@ class GildedRose {
                 && !item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
                 if (item.quality > 0) {
                     if (!item.name.equals("Sulfuras, Hand of Ragnaros")) {
-                        item.quality = item.quality - 1;
+                        decreaseQualityBy1(item);
                     }
                 }
             } else {
                 if (item.quality < 50) {
                     increaseQualityBy1(item);
-
                     if (item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                        if (item.quality < 50) {
-                            if (item.sellIn < 11) {
-                                increaseQualityBy1(item);
-                            }
-                            if (item.sellIn < 6) {
-                                increaseQualityBy1(item);
-                            }
-                        }
+                        handleBackstageWithQualityLessThan50(item);
                     }
                 }
             }
@@ -42,7 +34,7 @@ class GildedRose {
                     if (!item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
                         if (item.quality > 0) {
                             if (!item.name.equals("Sulfuras, Hand of Ragnaros")) {
-                                item.quality = item.quality - 1;
+                                decreaseQualityBy1(item);
                             }
                         }
                     } else {
@@ -53,6 +45,21 @@ class GildedRose {
                         increaseQualityBy1(item);
                     }
                 }
+            }
+        }
+    }
+
+    private static void decreaseQualityBy1(Item item) {
+        item.quality = item.quality - 1;
+    }
+
+    private static void handleBackstageWithQualityLessThan50(Item item) {
+        if (item.quality < 50) {
+            if (item.sellIn < 11) {
+                increaseQualityBy1(item);
+            }
+            if (item.sellIn < 6) {
+                increaseQualityBy1(item);
             }
         }
     }
