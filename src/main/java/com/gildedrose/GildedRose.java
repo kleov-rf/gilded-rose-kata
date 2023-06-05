@@ -43,12 +43,13 @@ class GildedRose {
                 continue;
             }
 
-            if (!isBackstagePass) {
-                if (item.quality > 0) {
-                    decreaseQualityBy1(item);
-                }
-            } else {
+            if (isBackstagePass) {
                 item.quality = 0;
+                continue;
+            }
+
+            if (item.quality > 0) {
+                decreaseQualityBy1(item);
             }
         }
     }
